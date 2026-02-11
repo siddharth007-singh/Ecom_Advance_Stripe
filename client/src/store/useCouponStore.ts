@@ -66,5 +66,7 @@ export const useCouponStore = create<CouponState>()(
                 return null;
             }
         }
-    }))
+    }),{
+        name:"coupon-store"
+    })
 )
