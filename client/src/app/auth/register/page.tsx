@@ -39,7 +39,7 @@ const RegisterPage = (props: Props) => {
     
     const userId = await register(formData.name, formData.email, formData.password);
     if(userId) {
-      toast.success("Registration successful! Please log in.");
+      toast.success("Registration successful.");
       window.location.href = "/home"; 
     }
 
