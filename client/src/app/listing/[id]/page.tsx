@@ -1,15 +1,17 @@
-import React, { Suspense } from 'react';
-import ProductDetailsContent from './productDetailsContent';
-import ProductDetailsSkeleton from './productSkeleton';
+import React, { Suspense } from "react";
+import ProductDetailsContent from "./productDetailsContent";
+import ProductDetailsSkeleton from "./productSkeleton";
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-const ProductDetailsPage = ({ params }: Props) => {
+const ProductDetailsPage = async ({ params }: Props) => {
+  const { id } = await params;
+
   return (
     <Suspense fallback={<ProductDetailsSkeleton />}>
-      <ProductDetailsContent id={params.id} />
+      <ProductDetailsContent id={id} />
     </Suspense>
   );
 };
