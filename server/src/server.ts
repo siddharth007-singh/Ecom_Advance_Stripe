@@ -2,7 +2,7 @@ import { PrismaClient } from "../generated/prisma";
 import dotenv from "dotenv";
 import express from "express";
 import cookieParser from "cookie-parser";
-import cors from "cors";
+import cors, {CorsOptions} from "cors";
 import authRoutes from "./routes/authRoutes";
 import productRoutes from "./routes/productRoutes";
 import couponRoutes from "./routes/couponRoutes";
@@ -20,18 +20,26 @@ const allowedOrigins = [
   "https://ecom-advance-stripe.vercel.app", // 👈 yahan apna actual Vercel domain daal
 ];
 
-const corsOptions = {
-    origin: function (origin:any, callback:any) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+const corsOptions:CorsOptions = {
+   origin: (origin, callback) => {
+      // Allow requests with no origin (like Postman, server-to-server)
+      if (!origin) return callback(null, true);
 
-    credentials: true,
-    methods:["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      // In development, allow all origins to avoid headache
+      if (process.env.NODE_ENV !== "production") {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }
 
 app.use(cors(corsOptions));
@@ -50,14 +58,14 @@ app.use('/api/order', orderRoutes);
 
 
 app.get('/', (req, res) => {
-    res.send('Hello backend!');
+  res.send('Hello backend!');
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 process.on('SIGINT', async () => {
-    await prisma.$disconnect();
-    process.exit();
+  await prisma.$disconnect();
+  process.exit();
 });
