@@ -1,7 +1,5 @@
 import arcjet, { detectBot, fixedWindow, protectSignup, sensitiveInfo, shield, slidingWindow, validateEmail } from "@arcjet/next";
 
-const MODE = process.env.NODE_ENV === "production" ? "LIVE" : "DRY_RUN";
-
 
 export const protectSignUpRules = arcjet({
   key: process.env.ARCJET_KEY!,
