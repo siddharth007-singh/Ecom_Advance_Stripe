@@ -6,15 +6,15 @@ import { prisma } from "../server";
 
 
 
-const PAYPAL_CLIENT_ID = "AfuPjh9ur9K8K-EWC2iIZZyWMlKJveEpBRhgwAN0EPX9vOee2_fTnh0_CKEF6p9yvU5YW2XHSaI7WohR";
-const PAYPAL_CLIENT_SECRET = "EF2tpwO-Rkx29_7_lbMKiYNVwpl1VuD73KCpd5oI6uoVyMak8AxfBP7JRKkN-kNhP258YFOtCeJYCqww";
+// const PAYPAL_CLIENT_ID = "AfuPjh9ur9K8K-EWC2iIZZyWMlKJveEpBRhgwAN0EPX9vOee2_fTnh0_CKEF6p9yvU5YW2XHSaI7WohR";
+// const PAYPAL_CLIENT_SECRET = "EF2tpwO-Rkx29_7_lbMKiYNVwpl1VuD73KCpd5oI6uoVyMak8AxfBP7JRKkN-kNhP258YFOtCeJYCqww";
 
 
 async function getPaypalAccessToken() {
     const res = await axios.post('https://api-m.sandbox.paypal.com/v1/oauth2/token', "grant_type=client_credentials", {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `Basic ${Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`).toString('base64')}`,
+            'Authorization': `Basic ${Buffer.from(`${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`).toString('base64')}`,
         },
     });
 
