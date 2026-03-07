@@ -13,7 +13,7 @@ import orderRoutes from "./routes/orderRoutes";
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 const allowedOrigins = [
   "http://localhost:3000",
